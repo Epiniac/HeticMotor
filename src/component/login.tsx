@@ -78,7 +78,7 @@ function LoginForm () {
                         Se connecter
                     </Button>
                     <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                        Déjà un compte ?{' '}
+                        Pas de compte ?{' '}
                         <Link href="/inscription" underline="hover">
                             S'inscrire
                         </Link>
