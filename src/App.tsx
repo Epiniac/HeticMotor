@@ -4,6 +4,7 @@ import Barapp from './component/appBar.tsx';
 import LoginForm from './component/login.tsx';
 import SignupForm from './component/inscription.tsx';
 import Produit from "./component/produit.tsx";
+import ProductDetails from './component/description.tsx';
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/inscription" element={<SignupForm />} />
                     <Route path="/produit" element={<Produit />} />
+                    <Route path="/products/:productId" element={<ProductDetails />} />
                     <Route path="/" element={<LoginForm />} />
                 </Routes>
             </div>

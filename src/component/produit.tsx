@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { Link } from 'react-router-dom'; 
 
 // Données de produits (à remplacer par une API ou une base de données)
 const products = [
@@ -47,20 +48,22 @@ function ProductPage() {
             <Grid container spacing={4}>
                 {products.map((product) => (
                     <Grid item key={product.id} xs={12} sm={6} md={4} sx={{marginTop:'10vh'}}>
-                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                            <CardMedia
-                                component="img"
-                                image={product.image}
-                                alt={product.name}
-                                sx={{ height: 200, objectFit: 'cover' }}
-                            />
-                            <CardContent sx={{ flexGrow: 1 }}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    {product.name}
-                                </Typography>
-                                <Typography>{product.description}</Typography>
-                            </CardContent>
-                        </Card>
+                        <Link to={`/products/${product.id}`} style={{ textDecoration: 'none' }}>
+                            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                                <CardMedia
+                                    component="img"
+                                    image={product.image}
+                                    alt={product.name}
+                                    sx={{ height: 200, objectFit: 'cover' }}
+                                />
+                                <CardContent sx={{ flexGrow: 1 }}>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {product.name}
+                                    </Typography>
+                                    <Typography>{product.description}</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
                     </Grid>
                 ))}
             </Grid>
