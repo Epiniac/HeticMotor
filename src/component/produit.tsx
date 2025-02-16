@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom'; 
 import v1 from '../image/v1.jpg'
@@ -47,6 +46,7 @@ const products = [
         description: 'Description du produit 6.',
     },
 ];
+
 function ProductPage() {
     return (
         <Container sx={{ py: 4, marginTop:'2vh'}}>

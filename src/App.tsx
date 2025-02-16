@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Barapp from './component/appBar.tsx';
 import LoginForm from './component/login.tsx';
@@ -15,7 +14,7 @@ function App() {
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/inscription" element={<SignupForm />} />
                     <Route path="/produit" element={<Produit />} />
-                    <Route path="/products/:productId" element={<ProductDetails />} />
+                    <Route path="/produit/:produitId" element={<ProductDetails />} />
                     <Route path="/" element={<LoginForm />} />
                 </Routes>
             </div>
