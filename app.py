@@ -1,6 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template # type: ignore
+from database_config import app, db
+from models import User, Vehicle, Document
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = None #TODO
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
