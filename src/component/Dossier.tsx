@@ -41,12 +41,9 @@ export default function Dossiers() {
 
     return (
         <Box sx={{ p: 4 }}>
-            {/* Titre de la page */}
             <Typography variant="h4" gutterBottom>
                 Gestion des Dossiers
             </Typography>
-
-            {/* Liste des dossiers */}
             <Typography variant="h5" gutterBottom>
                 Liste des dossiers
             </Typography>
