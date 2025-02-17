@@ -25,7 +25,7 @@ function Vehicles() {
         model: "",
         year: "",
         price: "",
-        status: "location", // Par défaut à la location
+        status: "location",
     });
 
     const getStatusColor = (status: string): ButtonProps["color"] => {
@@ -78,12 +78,11 @@ function Vehicles() {
 
     return (
         <Box sx={{ p: 4 }}>
-            {/* Titre de la page */}
-            <Typography variant="h3" gutterBottom>
+            <Typography variant="h4" gutterBottom>
                 Gestion des Véhicules
             </Typography>
 
-            <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4 }}>
+            <Box component="form" onSubmit={handleSubmit}>
                 <TextField
                     label="Marque"
                     name="make"
@@ -134,12 +133,12 @@ function Vehicles() {
                         <MenuItem value="vente">Vente</MenuItem>
                     </Select>
                 </FormControl>
-                <Button type="submit" variant="contained" fullWidth>
-                    Ajouter un véhicule
-                </Button>
+                <Box sx={{ textAlign: "center", alignItems: "center", justifyContent: "center" }}>
+                    <Button type="submit" variant="contained">
+                        Ajouter un véhicule
+                    </Button>
+                </Box>
             </Box>
-
-            {/* Liste des véhicules */}
             <Typography variant="h5" gutterBottom>
                 Liste des véhicules
             </Typography>

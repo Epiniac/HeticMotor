@@ -42,7 +42,7 @@ export default function Dossiers() {
     return (
         <Box sx={{ p: 4 }}>
             {/* Titre de la page */}
-            <Typography variant="h3" gutterBottom>
+            <Typography variant="h4" gutterBottom>
                 Gestion des Dossiers
             </Typography>
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Dashboard() {
     return (
         <Box sx={{ p: 4, }}>
-            <Typography variant="h3" gutterBottom>
+            <Typography variant="h4" gutterBottom>
                 Tableau de bord
             </Typography>
             <Typography variant="body1" paragraph>
@@ -22,10 +22,10 @@ function Dashboard() {
                             textAlign: 'center',
                         }}
                     >
-                        <Typography variant="h5" gutterBottom>
+                        <Typography variant="h6" gutterBottom>
                             Véhicules à la location
                         </Typography>
-                        <Typography variant="h4">5 véhicules disponibles</Typography>
+                        <Typography variant="h5">5 véhicules disponibles</Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -38,10 +38,10 @@ function Dashboard() {
                             textAlign: 'center',
                         }}
                     >
-                        <Typography variant="h5" gutterBottom>
+                        <Typography variant="h6" gutterBottom>
                             Véhicules à vendre
                         </Typography>
-                        <Typography variant="h4">3 véhicules en vente</Typography>
+                        <Typography variant="h5">3 véhicules en vente</Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -54,10 +54,10 @@ function Dashboard() {
                             textAlign: 'center',
                         }}
                     >
-                        <Typography variant="h5" gutterBottom>
+                        <Typography variant="h6" gutterBottom>
                             Dossiers en attente
                         </Typography>
-                        <Typography variant="h4">2 dossiers à valider</Typography>
+                        <Typography variant="h5">2 dossiers à valider</Typography>
                     </Box>
                 </Grid>
             </Grid>
