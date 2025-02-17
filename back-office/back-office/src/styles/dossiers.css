@@ -1,0 +1,64 @@
+.dossiers {
+  padding: 20px;
+}
+
+.dossiers h1 {
+  color: #007bff;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.dossier-list {
+  color: black;
+  margin-top: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+span {
+  font-weight: bold;
+  color: #28a745;
+}
+
+button + button {
+  background-color: #dc3545;
+}
+
+button + button:hover {
+  background-color: #c82333;
+}
