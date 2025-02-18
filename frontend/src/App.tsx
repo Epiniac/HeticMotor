@@ -1,12 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Barapp from './component/appBar.tsx';
-import LoginForm from './component/login.tsx';
-import SignupForm from './component/inscription.tsx';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Barapp from "./component/appBar.tsx";
+import LoginForm from "./component/login.tsx";
+import SignupForm from "./component/inscription.tsx";
 import Produit from "./component/produit.tsx";
-import ProductDetails from './component/description.tsx';
+import ProductDetails from "./component/description.tsx";
 import Dashboard from "./component/Dashboard.tsx";
 import Dossiers from "./component/Dossier.tsx";
 import Vehicules from "./component/vehicules.tsx";
+import ProtectedRoute from "./component/ProtectedRoute.tsx";
 
 function App() {
     return (
@@ -14,15 +15,18 @@ function App() {
             <div>
                 <Barapp />
                 <Routes>
+                    <Route path="/" element={<LoginForm />} />
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/inscription" element={<SignupForm />} />
                     <Route path="/produit" element={<Produit />} />
+
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/produit/:id" element={<ProductDetails />} />
+                    </Route>
+
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/produit" element={<Produit />} />
                     <Route path="/dossier" element={<Dossiers />} />
                     <Route path="/vehicules" element={<Vehicules />} />
-                    <Route path="/produit/:produitId" element={<ProductDetails />} />
-                    <Route path="/" element={<LoginForm />} />
                 </Routes>
             </div>
         </Router>
@@ -30,4 +34,3 @@ function App() {
 }
 
 export default App;
-
