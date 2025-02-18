@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 import jwt
 import datetime
 from database_config import db
-from models import User, Vehicle, Document
+from models import User, Vehicle, Document, Request
 
 app = Flask(__name__)
 
@@ -151,13 +151,75 @@ def login():
 
 
 
-# Gérer les demandes de location/achat
+# Ajouter une demande à la base de données
 @app.route('/api/request', methods=['POST'])
 def request_vehicle():
     try:
         data = request.get_json()
-        print("Nouvelle demande reçue:", data)
-        return jsonify({"message": "Demande reçue avec succès"}), 201
+        print("Requête reçue:", data)
+
+        # Vérifier si le véhicule existe
+        vehicle = Vehicle.query.get(data.get('vehicle_id'))
+        if not vehicle:
+            return jsonify({"error": "Véhicule non trouvé"}), 404
+
+        # Vérifier si l'utilisateur existe (si nécessaire)
+        user = User.query.filter_by(email=data.get('email')).first()
+        if not user:
+            return jsonify({"error": "Utilisateur non trouvé"}), 404
+
+        new_request = Request(
+            user_id=user.id,  # Stocke l'ID utilisateur
+            vehicle_id=data.get('vehicle_id'),
+            request_type=data.get('type', ""),
+            status="en attente",
+            message=data.get('message', ""),
+            date=datetime.datetime.utcnow()
+        )
+
+        db.session.add(new_request)
+        db.session.commit()
+
+        return jsonify({"message": "Demande enregistrée avec succès"}), 201
+    except Exception as e:
+        print("Erreur complète :", e)  # <-- Afficher l'erreur complète
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/dossiers', methods=['GET'])
+def get_requests():
+    try:
+        requests = Request.query.all()
+        dossiers_list = [
+            {
+                "id": r.id,
+                "client": f"{r.user.name} {r.user.lastname}",  # 🔹 Correction ici
+                "vehicle": r.vehicle.vehicle_model,
+                "type": r.request_type,  # 🔹 Correction ici : request_type au lieu de type
+                "status": r.status
+            }
+            for r in requests
+        ]
+
+        return jsonify(dossiers_list), 200
+
+    except Exception as e:
+        print("Erreur complète :", e)
+        return jsonify({"error": str(e)}), 500
+
+
+# Mettre à jour le statut d'une demande
+@app.route('/api/dossiers/<int:request_id>', methods=['PUT'])
+def update_request_status(request_id):
+    try:
+        data = request.get_json()
+        request_entry = Request.query.get(request_id)
+        if not request_entry:
+            return jsonify({"error": "Demande non trouvée"}), 404
+
+        request_entry.status = data.get("status", request_entry.status)
+        db.session.commit()
+        return jsonify({"message": "Statut mis à jour"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

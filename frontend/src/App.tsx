@@ -4,7 +4,6 @@ import LoginForm from "./component/login.tsx";
 import SignupForm from "./component/inscription.tsx";
 import Produit from "./component/produit.tsx";
 import ProductDetails from "./component/description.tsx";
-import Dashboard from "./component/Dashboard.tsx";
 import Dossiers from "./component/Dossier.tsx";
 import Vehicules from "./component/vehicules.tsx";
 import ProtectedRoute from "./component/ProtectedRoute.tsx";
@@ -19,12 +18,9 @@ function App() {
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/inscription" element={<SignupForm />} />
                     <Route path="/produit" element={<Produit />} />
-
                     <Route element={<ProtectedRoute />}>
                         <Route path="/produit/:id" element={<ProductDetails />} />
                     </Route>
-
-                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/dossier" element={<Dossiers />} />
                     <Route path="/vehicules" element={<Vehicules />} />
                 </Routes>

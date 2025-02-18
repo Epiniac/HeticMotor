@@ -38,14 +38,12 @@ class Document(db.Model):
 
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('requests', lazy=True))
-    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable=False)
-    vehicle = db.relationship('Vehicle', backref=db.backref('requests', lazy=True))
-    request_type = db.Column(db.String(10), nullable=False)  # "rent" ou "buy"
-    status = db.Column(db.String(20), nullable=False, default="pending")  # "pending", "approved", "rejected"
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # ✅ Clé étrangère vers `user.id`
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable=False)  # ✅ Clé étrangère vers `vehicle.id`
+    request_type = db.Column(db.String(10), nullable=False)  # ✅ Correspond à "type"
+    status = db.Column(db.String(20), default="en attente", nullable=False)
     message = db.Column(db.String(500), nullable=True)
-    date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    date = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    def __repr__(self):
-        return f"Request('{self.user_id}', '{self.vehicle_id}', '{self.request_type}', '{self.status}')"
+    vehicle = db.relationship('Vehicle', backref=db.backref('requests', lazy=True))
+    user = db.relationship('User', backref=db.backref('requests', lazy=True))

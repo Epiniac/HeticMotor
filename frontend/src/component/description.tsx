@@ -52,11 +52,18 @@ function VehicleDetail() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Données envoyées:", { email: formData.email, vehicle_id: vehicle.id, type: formData.type, message: formData.message });
+
         try {
             const response = await fetch("http://127.0.0.1:5000/api/request", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...formData, vehicle_id: vehicle.id }),
+                body: JSON.stringify({
+                    email: formData.email,  // Utilise l'email pour retrouver l'utilisateur
+                    vehicle_id: vehicle.id,
+                    type: formData.type,
+                    message: formData.message
+                }),
             });
 
             if (!response.ok) {
@@ -69,6 +76,7 @@ function VehicleDetail() {
             console.error("Erreur lors de l'envoi de la demande:", error);
         }
     };
+
 
     return (
         <Container sx={{ py: 4 }}>

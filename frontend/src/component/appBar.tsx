@@ -41,7 +41,6 @@ function Barapp() {
                     )}
 
                     <Button color="inherit" onClick={() => navigate('/produit')}>Produit</Button>
-                    <Button color="inherit" onClick={() => navigate('/dashboard')}>Dashboard</Button>
 
                     {user?.role === "admin" && (
                         <>

@@ -12,40 +12,47 @@ import {
     Button,
 } from "@mui/material";
 
+const API_URL = "http://127.0.0.1:5000/api/dossiers";
+
 export default function Dossiers() {
     const [dossiers, setDossiers] = useState([]);
 
-    // Exemple de récupération de dossiers depuis l'API
     useEffect(() => {
-        // fetch("API_URL/dossiers")
-        //   .then(response => response.json())
-        //   .then(data => setDossiers(data));
-
-        setDossiers([
-            { id: 1, client: "John Doe", vehicle: "Toyota Corolla", type: "location", status: "en attente" },
-            { id: 2, client: "Jane Smith", vehicle: "Honda Civic", type: "vente", status: "validé" },
-        ]);
+        fetchDossiers();
     }, []);
 
-    const handleValidation = (id) => {
-        setDossiers(dossiers.map(dossier =>
-            dossier.id === id ? { ...dossier, status: "validé" } : dossier
-        ));
+    const fetchDossiers = async () => {
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            setDossiers(data);
+        } catch (error) {
+            console.error("Erreur lors du chargement des dossiers:", error);
+        }
     };
 
-    const handleRefus = (id) => {
-        setDossiers(dossiers.map(dossier =>
-            dossier.id === id ? { ...dossier, status: "refusé" } : dossier
-        ));
+    const updateStatus = async (id, status) => {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status }),
+            });
+
+            if (!response.ok) throw new Error("Erreur lors de la mise à jour");
+
+            setDossiers(dossiers.map(dossier =>
+                dossier.id === id ? { ...dossier, status } : dossier
+            ));
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour du statut:", error);
+        }
     };
 
     return (
         <Box sx={{ p: 4 }}>
             <Typography variant="h4" gutterBottom>
                 Gestion des Dossiers
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-                Liste des dossiers
             </Typography>
             <TableContainer component={Paper}>
                 <Table>
@@ -71,7 +78,7 @@ export default function Dossiers() {
                                             <Button
                                                 variant="contained"
                                                 color="success"
-                                                onClick={() => handleValidation(dossier.id)}
+                                                onClick={() => updateStatus(dossier.id, "validé")}
                                                 sx={{ mr: 1 }}
                                             >
                                                 Valider
@@ -79,7 +86,7 @@ export default function Dossiers() {
                                             <Button
                                                 variant="contained"
                                                 color="error"
-                                                onClick={() => handleRefus(dossier.id)}
+                                                onClick={() => updateStatus(dossier.id, "refusé")}
                                             >
                                                 Refuser
                                             </Button>

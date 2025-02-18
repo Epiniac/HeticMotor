@@ -9,7 +9,7 @@ function LoginForm() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
@@ -27,7 +27,8 @@ function LoginForm() {
 
             alert("Connexion réussie !");
             navigate("/produit");
-        } catch (error: any) {
+            window.location.reload();
+        } catch (error) {
             setError(error.message);
         }
     };
