@@ -1,6 +1,7 @@
-import bcrypt
+from database_config import db, app
 
-password = "admin123"
-hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-print("Hash du mot de passe :", hashed.decode())
+with app.app_context():
+
+    print("Connexion à la base de données :", db.engine.url)
+

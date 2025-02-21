@@ -1,3 +1,4 @@
+from flask_migrate import Migrate
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -7,13 +8,14 @@ from database_config import db
 from models import User, Vehicle, Document, Request
 
 app = Flask(__name__)
+migrate = Migrate(app, db)
 
 # Correction de CORS
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/models_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = "supersecretkey"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://dbmasteruser:hetic123@ls-0fc3236d441f5341363a71a9c5e962a6de247ecc.cd1vbmeqzor2.eu-west-3.rds.amazonaws.com/m_motors_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+app.config['SECRET_KEY'] = "supersecretkey" 
 db.init_app(app)
 
 with app.app_context():
@@ -224,4 +226,4 @@ def update_request_status(request_id):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host="0.0.0.0", port=8000)
