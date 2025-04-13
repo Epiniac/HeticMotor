@@ -10,3 +10,4 @@ pymysql
 
 gunicorn
 
+python-dotenv==1.1.0

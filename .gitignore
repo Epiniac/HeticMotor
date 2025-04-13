@@ -34,3 +34,9 @@ venv/
 # Ignorer les fichiers de migration générés
 backend/migrations/
 
+# Ignorer les fich de env
+.env
+
+# Cche de vite
+.vite/
+

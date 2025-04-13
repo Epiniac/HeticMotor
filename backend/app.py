@@ -1,21 +1,22 @@
 from flask_migrate import Migrate
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 import jwt
+import os
 import datetime
 from database_config import db
 from models import User, Vehicle, Document, Request
 
+load_dotenv()
 app = Flask(__name__)
 migrate = Migrate(app, db)
 
 # Correction de CORS
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://dbmasteruser:hetic123@ls-0fc3236d441f5341363a71a9c5e962a6de247ecc.cd1vbmeqzor2.eu-west-3.rds.amazonaws.com/m_motors_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
-app.config['SECRET_KEY'] = "supersecretkey" 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 db.init_app(app)
 
 with app.app_context():
