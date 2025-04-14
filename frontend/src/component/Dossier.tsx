@@ -2,25 +2,25 @@ import { useState, useEffect } from "react";
 
 import {
 
-    Box,
+  Box,
 
-    Typography,
+  Typography,
 
-    Table,
+  Table,
 
-    TableBody,
+  TableBody,
 
-    TableCell,
+  TableCell,
 
-    TableContainer,
+  TableContainer,
 
-    TableHead,
+  TableHead,
 
-    TableRow,
+  TableRow,
 
-    Paper,
+  Paper,
 
-    Button,
+  Button,
 
 } from "@mui/material";
 
@@ -32,173 +32,190 @@ const API_URL = "http://15.237.137.70:8000/api/dossiers";
 
 export default function Dossiers() {
 
-    const [dossiers, setDossiers] = useState<Dossier[]>([]);
+  const [dossiers, setDossiers] = useState<Dossier[]>([]);
 
 
-    useEffect(() => {
+  // Ì†ΩÌ¥ê Bloque l'acc√®s si pas admin
 
-        fetchDossiers();
+  useEffect(() => {
 
-    }, []);
+    const token = localStorage.getItem("token");
 
+    const role = localStorage.getItem("role");
 
-    const fetchDossiers = async () => {
+    if (!token || role !== "admin") {
 
-        try {
+      window.location.href = "/";
 
-            const response = await fetch(API_URL);
+    }
 
-            const data: Dossier[] = await response.json();
+  }, []);
 
-            setDossiers(data);
 
-        } catch (error) {
+  useEffect(() => {
 
-            console.error("Erreur lors du chargement des dossiers:", error);
+    fetchDossiers();
 
-        }
+  }, []);
 
-    };
 
+  const fetchDossiers = async () => {
 
-    const updateStatus = async (id: number, status: Dossier["status"]) => {
+    try {
 
-        try {
+      const response = await fetch(API_URL);
 
-            const response = await fetch(`${API_URL}/${id}`, {
+      const data: Dossier[] = await response.json();
 
-                method: "PUT",
+      setDossiers(data);
 
-                headers: { "Content-Type": "application/json" },
+    } catch (error) {
 
-                body: JSON.stringify({ status }),
+      console.error("Erreur lors du chargement des dossiers:", error);
 
-            });
+    }
 
+  };
 
-            if (!response.ok) throw new Error("Erreur lors de la mise √† jour");
 
+  const updateStatus = async (id: number, status: Dossier["status"]) => {
 
-            setDossiers(dossiers.map((dossier) =>
+    try {
 
-                dossier.id === id ? { ...dossier, status } : dossier
+      const response = await fetch(`${API_URL}/${id}`, {
 
-            ));
+        method: "PUT",
 
-        } catch (error) {
+        headers: { "Content-Type": "application/json" },
 
-            console.error("Erreur lors de la mise √† jour du statut:", error);
+        body: JSON.stringify({ status }),
 
-        }
+      });
 
-    };
 
+      if (!response.ok) throw new Error("Erreur lors de la mise √† jour");
 
-    return (
 
-        <Box sx={{ p: 4 }}>
+      setDossiers(dossiers.map((dossier) =>
 
-            <Typography variant="h4" gutterBottom>
+        dossier.id === id ? { ...dossier, status } : dossier
 
-                Gestion des Dossiers
+      ));
 
-            </Typography>
+    } catch (error) {
 
-            <TableContainer component={Paper}>
+      console.error("Erreur lors de la mise √† jour du statut:", error);
 
-                <Table>
+    }
 
-                    <TableHead>
+  };
 
-                        <TableRow>
 
-                            <TableCell>Client</TableCell>
+  return (
 
-                            <TableCell>V√©hicule</TableCell>
+    <Box sx={{ p: 4 }}>
 
-                            <TableCell>Type</TableCell>
+      <Typography variant="h4" gutterBottom>
 
-                            <TableCell>Statut</TableCell>
+        Gestion des Dossiers
 
-                            <TableCell>Actions</TableCell>
+      </Typography>
 
-                        </TableRow>
+      <TableContainer component={Paper}>
 
-                    </TableHead>
+        <Table>
 
-                    <TableBody>
+          <TableHead>
 
-                        {dossiers.map((dossier) => (
+            <TableRow>
 
-                            <TableRow key={dossier.id}>
+              <TableCell>Client</TableCell>
 
-                                <TableCell>{dossier.client}</TableCell>
+              <TableCell>V√©hicule</TableCell>
 
-                                <TableCell>{dossier.vehicle}</TableCell>
+              <TableCell>Type</TableCell>
 
-                                <TableCell>{dossier.type}</TableCell>
+              <TableCell>Statut</TableCell>
 
-                                <TableCell>{dossier.status}</TableCell>
+              <TableCell>Actions</TableCell>
 
-                                <TableCell>
+            </TableRow>
 
-                                    {dossier.status === "en attente" ? (
+          </TableHead>
 
-                                        <>
+          <TableBody>
 
-                                            <Button
+            {dossiers.map((dossier) => (
 
-                                                variant="contained"
+              <TableRow key={dossier.id}>
 
-                                                color="success"
+                <TableCell>{dossier.client}</TableCell>
 
-                                                onClick={() => updateStatus(dossier.id, "valid√©")}
+                <TableCell>{dossier.vehicle}</TableCell>
 
-                                                sx={{ mr: 1 }}
+                <TableCell>{dossier.type}</TableCell>
 
-                                            >
+                <TableCell>{dossier.status}</TableCell>
 
-                                                Valider
+                <TableCell>
 
-                                            </Button>
+                  {dossier.status === "en attente" ? (
 
-                                            <Button
+                    <>
 
-                                                variant="contained"
+                      <Button
 
-                                                color="error"
+                        variant="contained"
 
-                                                onClick={() => updateStatus(dossier.id, "refus√©")}
+                        color="success"
 
-                                            >
+                        onClick={() => updateStatus(dossier.id, "valid√©")}
 
-                                                Refuser
+                        sx={{ mr: 1 }}
 
-                                            </Button>
+                      >
 
-                                        </>
+                        Valider
 
-                                    ) : (
+                      </Button>
 
-                                        <Typography>{dossier.status}</Typography>
+                      <Button
 
-                                    )}
+                        variant="contained"
 
-                                </TableCell>
+                        color="error"
 
-                            </TableRow>
+                        onClick={() => updateStatus(dossier.id, "refus√©")}
 
-                        ))}
+                      >
 
-                    </TableBody>
+                        Refuser
 
-                </Table>
+                      </Button>
 
-            </TableContainer>
+                    </>
 
-        </Box>
+                  ) : (
 
-    );
+                    <Typography>{dossier.status}</Typography>
+
+                  )}
+
+                </TableCell>
+
+              </TableRow>
+
+            ))}
+
+          </TableBody>
+
+        </Table>
+
+      </TableContainer>
+
+    </Box>
+
+  );
 
 }
 

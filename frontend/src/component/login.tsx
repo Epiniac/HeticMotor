@@ -9,107 +9,150 @@ import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
 
-    const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
 
-    const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');
 
-    const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-    const navigate = useNavigate();
-
-
-    const handleSubmit = async (event: React.FormEvent) => {
-
-        event.preventDefault();
+  const navigate = useNavigate();
 
 
-        try {
+  const handleSubmit = async (event: React.FormEvent) => {
 
-            const response = await fetch("http://15.237.137.70:8000/api/login", {
-
-                method: "POST",
-
-                headers: { "Content-Type": "application/json" },
-
-                body: JSON.stringify({ email, password }),
-
-            });
+    event.preventDefault();
 
 
-            const data = await response.json();
+    try {
 
-            if (!response.ok) throw new Error(data.error || "Erreur lors de la connexion");
+      const response = await fetch("http://15.237.137.70:8000/api/login", {
 
+        method: "POST",
 
-            localStorage.setItem("token", data.token);
+        headers: { "Content-Type": "application/json" },
 
-            localStorage.setItem("user", JSON.stringify({
+        body: JSON.stringify({ email, password }),
 
-                name: data.username,
-
-                lastname: data.lastname,
-
-                role: data.role,
-
-            }));
+      });
 
 
-            alert("Connexion réussie !");
+      const data = await response.json();
 
-            navigate("/produit");
-
-            window.location.reload();
-
-        } catch (error: unknown) {
-
-            if (error instanceof Error) {
-
-                setError(error.message);
-
-            } else {
-
-                setError("Une erreur inconnue est survenue");
-
-            }
-
-        }
-
-    };
+      if (!response.ok) throw new Error(data.error || "Erreur lors de la connexion");
 
 
-    return (
+      localStorage.setItem("token", data.token);
 
-        <Container maxWidth="xs" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
+      localStorage.setItem("role", data.role); // ✅ ligne ajoutée
 
-            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 3, boxShadow: 3, borderRadius: 2 }}>
 
-                <LockOutlined sx={{ fontSize: 40, color: 'primary.main' }} />
+      localStorage.setItem("user", JSON.stringify({
 
-                <Typography component="h1" variant="h5" sx={{ mt: 2 }}>Connexion</Typography>
+        name: data.username,
 
-                {error && <Typography color="error">{error}</Typography>}
+        lastname: data.lastname,
 
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+        role: data.role,
 
-                    <TextField margin="normal" required fullWidth label="Adresse Email" autoComplete="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} />
+      }));
 
-                    <TextField margin="normal" required fullWidth type="password" label="Mot de passe" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                    <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Se connecter</Button>
+      alert("Connexion réussie !");
 
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
+      navigate("/produit");
 
-                        Pas de compte ? <Link href="/inscription" underline="hover">S'inscrire</Link>
+      window.location.reload();
 
-                    </Typography>
+    } catch (error: unknown) {
 
-                </Box>
+      if (error instanceof Error) {
 
-            </Box>
+        setError(error.message);
 
-        </Container>
+      } else {
 
-    );
+        setError("Une erreur inconnue est survenue");
+
+      }
+
+    }
+
+  };
+
+
+  return (
+
+    <Container maxWidth="xs" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
+
+      <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 3, boxShadow: 3, borderRadius: 2 }}>
+
+        <LockOutlined sx={{ fontSize: 40, color: 'primary.main' }} />
+
+        <Typography component="h1" variant="h5" sx={{ mt: 2 }}>Connexion</Typography>
+
+        {error && <Typography color="error">{error}</Typography>}
+
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+
+          <TextField
+
+            margin="normal"
+
+            required
+
+            fullWidth
+
+            label="Adresse Email"
+
+            autoComplete="email"
+
+            autoFocus
+
+            value={email}
+
+            onChange={(e) => setEmail(e.target.value)}
+
+          />
+
+          <TextField
+
+            margin="normal"
+
+            required
+
+            fullWidth
+
+            type="password"
+
+            label="Mot de passe"
+
+            autoComplete="current-password"
+
+            value={password}
+
+            onChange={(e) => setPassword(e.target.value)}
+
+          />
+
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+
+            Se connecter
+
+          </Button>
+
+          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+
+            Pas de compte ? <Link href="/inscription" underline="hover">S'inscrire</Link>
+
+          </Typography>
+
+        </Box>
+
+      </Box>
+
+    </Container>
+
+  );
 
 }
 

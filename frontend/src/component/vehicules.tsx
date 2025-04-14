@@ -63,6 +63,23 @@ function Vehicles() {
   });
 
 
+  // Vérifie si l'utilisateur est admin, sinon redirige
+
+  useEffect(() => {
+
+    const token = localStorage.getItem("token");
+
+    const role = localStorage.getItem("role");
+
+    if (!token || role !== "admin") {
+
+      window.location.href = "/";
+
+    }
+
+  }, []);
+
+
   const getStatusColor = (status: boolean) => (status ? "primary" : "secondary");
 
 
@@ -203,6 +220,7 @@ function Vehicles() {
 
       </Typography>
 
+
       <Box component="form" onSubmit={handleSubmit}>
 
         <TextField
@@ -259,6 +277,7 @@ function Vehicles() {
 
         />
 
+
         <FormControl fullWidth sx={{ mb: 2 }}>
 
           <InputLabel>Disponibilité</InputLabel>
@@ -282,6 +301,7 @@ function Vehicles() {
           </Select>
 
         </FormControl>
+
 
         <FormControl fullWidth sx={{ mb: 2 }}>
 
@@ -324,6 +344,7 @@ function Vehicles() {
 
         />
 
+
         <Box sx={{ textAlign: "center" }}>
 
           <Button type="submit" variant="contained">
@@ -342,6 +363,7 @@ function Vehicles() {
         Liste des véhicules
 
       </Typography>
+
 
       <TableContainer component={Paper}>
 
@@ -381,13 +403,7 @@ function Vehicles() {
 
                 <TableCell>
 
-                  <Button
-
-                    variant="contained"
-
-                    color={getStatusColor(vehicle.availability)}
-
-                  >
+                  <Button variant="contained" color={getStatusColor(vehicle.availability)}>
 
                     {vehicle.availability ? "Disponible" : "Indisponible"}
 
@@ -399,15 +415,7 @@ function Vehicles() {
 
                 <TableCell>
 
-                  <Button
-
-                    variant="contained"
-
-                    color="error"
-
-                    onClick={() => handleDelete(vehicle.id)}
-
-                  >
+                  <Button variant="contained" color="error" onClick={() => handleDelete(vehicle.id)}>
 
                     Supprimer
 
