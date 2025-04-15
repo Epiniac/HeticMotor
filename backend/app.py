@@ -13,7 +13,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/models_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = "supersecretkey"
+app.config['SECRET_KEY'] = "f85KJHGjgcdjsbjGJHD"
 db.init_app(app)
 
 with app.app_context():

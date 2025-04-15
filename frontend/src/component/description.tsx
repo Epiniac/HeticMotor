@@ -14,7 +14,7 @@ import {
 const API_URL = "http://127.0.0.1:5000/api/vehicles";
 
 function VehicleDetail() {
-    const { id } = useParams(); // 🔹 Récupère l'ID du véhicule depuis l'URL
+    const { id } = useParams();
     const [vehicle, setVehicle] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
